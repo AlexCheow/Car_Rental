@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+head,body{
+	background-image: url("../picture/reservation_form_img.jpg");
+	background-size: cover;
+}
+
+form .row{
+	padding-bottom: 30px;
+}
+
+form.contact-form.row {
+    margin-top: 200px;
+}
+
+button {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #113AF9;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center!important;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 10%;
+    place-content: center;
+}
+
+
+button:hover,
+button:focus {
+  background-color: #F082AC;
+}
+
