@@ -1,178 +1,83 @@
-[![Latest Stable Version](https://poser.pugx.org/thecodingmachine/safe/v/stable.svg)](https://packagist.org/packages/thecodingmachine/safe)
-[![Total Downloads](https://poser.pugx.org/thecodingmachine/safe/downloads.svg)](https://packagist.org/packages/thecodingmachine/safe)
-[![Latest Unstable Version](https://poser.pugx.org/thecodingmachine/safe/v/unstable.svg)](https://packagist.org/packages/thecodingmachine/safe)
-[![License](https://poser.pugx.org/thecodingmachine/safe/license.svg)](https://packagist.org/packages/thecodingmachine/safe)
-[![Build Status](https://travis-ci.org/thecodingmachine/safe.svg?branch=master)](https://travis-ci.org/thecodingmachine/safe)
-[![Continuous Integration](https://github.com/thecodingmachine/safe/workflows/Continuous%20Integration/badge.svg)](https://github.com/thecodingmachine/safe/actions)
-[![codecov](https://codecov.io/gh/thecodingmachine/safe/branch/master/graph/badge.svg)](https://codecov.io/gh/thecodingmachine/safe)
+<h1 align="center">ramsey/uuid</h1>
 
-Safe PHP
-========
+<p align="center">
+    <strong>A PHP library for generating and working with UUIDs.</strong>
+</p>
 
-**Work in progress**
+<p align="center">
+    <a href="https://github.com/ramsey/uuid"><img src="http://img.shields.io/badge/source-ramsey/uuid-blue.svg?style=flat-square" alt="Source Code"></a>
+    <a href="https://packagist.org/packages/ramsey/uuid"><img src="https://img.shields.io/packagist/v/ramsey/uuid.svg?style=flat-square&label=release" alt="Download Package"></a>
+    <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/uuid.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
+    <a href="https://github.com/ramsey/uuid/blob/main/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/uuid.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
+    <a href="https://github.com/ramsey/uuid/actions/workflows/continuous-integration.yml"><img src="https://img.shields.io/github/workflow/status/ramsey/uuid/build/main?logo=github&style=flat-square" alt="Build Status"></a>
+    <a href="https://codecov.io/gh/ramsey/uuid"><img src="https://img.shields.io/codecov/c/gh/ramsey/uuid?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
+    <a href="https://shepherd.dev/github/ramsey/uuid"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fuuid%2Fcoverage" alt="Psalm Type Coverage"></a>
+</p>
 
-A set of core PHP functions rewritten to throw exceptions instead of returning `false` when an error is encountered.
+ramsey/uuid is a PHP library for generating and working with universally unique
+identifiers (UUIDs).
 
-## The problem
+This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
+By participating in this project and its community, you are expected to
+uphold this code.
 
-Most PHP core functions were written before exception handling was added to the language. Therefore, most PHP functions
-do not throw exceptions. Instead, they return `false` in case of error.
-
-But most of us are too lazy to check explicitly for every single return of every core PHP function.
-
-```php
-// This code is incorrect. Twice.
-// "file_get_contents" can return false if the file does not exists
-// "json_decode" can return false if the file content is not valid JSON
-$content = file_get_contents('foobar.json');
-$foobar = json_decode($content);
-```
-
-The correct version of this code would be:
-
-```php
-$content = file_get_contents('foobar.json');
-if ($content === false) {
-    throw new FileLoadingException('Could not load file foobar.json');
-}
-$foobar = json_decode($content);
-if (json_last_error() !== JSON_ERROR_NONE) {
-    throw new FileLoadingException('foobar.json does not contain valid JSON: '.json_last_error_msg());
-}
-```
-
-Obviously, while this snippet is correct, it is less easy to read.
-
-## The solution
-
-Enter *thecodingmachine/safe* aka Safe-PHP.
-
-Safe-PHP redeclares all core PHP functions. The new PHP functions act exactly as the old ones, except they
-throw exceptions properly when an error is encountered. The "safe" functions have the same name as the core PHP
-functions, except they are in the `Safe` namespace.
-
-```php
-use function Safe\file_get_contents;
-use function Safe\json_decode;
-
-// This code is both safe and simple!
-$content = file_get_contents('foobar.json');
-$foobar = json_decode($content);
-```
-
-All PHP functions that can return `false` on error are part of Safe.
-In addition, Safe also provide 2 'Safe' classes: `Safe\DateTime` and `Safe\DateTimeImmutable` whose methods will throw exceptions instead of returning false.
-
-## PHPStan integration
-
-> Yeah... but I must explicitly think about importing the "safe" variant of the function, for each and every file of my application.
-> I'm sure I will forget some "use function" statements!
-
-Fear not! thecodingmachine/safe comes with a PHPStan rule.
-
-Never heard of [PHPStan](https://github.com/phpstan/phpstan) before?
-Check it out, it's an amazing code analyzer for PHP.
-
-Simply install the Safe rule in your PHPStan setup (explained in the "Installation" section) and PHPStan will let you know each time you are using an "unsafe" function.
-
-The code below will trigger this warning:
-
-```php
-$content = file_get_contents('foobar.json');
-```
-
-> Function file_get_contents is unsafe to use. It can return FALSE instead of throwing an exception. Please add 'use function Safe\\file_get_contents;' at the beginning of the file to use the variant provided by the 'thecodingmachine/safe' library.
+Much inspiration for this library came from the [Java][javauuid] and
+[Python][pyuuid] UUID libraries.
 
 ## Installation
 
-Use composer to install Safe-PHP:
+The preferred method of installation is via [Composer][]. Run the following
+command to install the package and add it as a requirement to your project's
+`composer.json`:
 
 ```bash
-$ composer require thecodingmachine/safe
+composer require ramsey/uuid
 ```
 
-*Highly recommended*: install PHPStan and PHPStan extension:
+## Upgrading to Version 4
 
-```bash
-$ composer require --dev thecodingmachine/phpstan-safe-rule
-```
+See the documentation for a thorough upgrade guide:
 
-Now, edit your `phpstan.neon` file and add these rules:
+* [Upgrading ramsey/uuid Version 3 to 4](https://uuid.ramsey.dev/en/latest/upgrading/3-to-4.html)
 
-```yml
-includes:
-    - vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
-```
+## Documentation
 
-## Automated refactoring
-
-You have a large legacy codebase and want to use "Safe-PHP" functions throughout your project? PHPStan will help you
-find these functions but changing the namespace of the functions one function at a time might be a tedious task.
-
-Fortunately, Safe comes bundled with a "Rector" configuration file. [Rector](https://github.com/rectorphp/rector) is a command-line
-tool that performs instant refactoring of your application.
-
-Run
-
-```bash
-$ composer require --dev rector/rector:^0.7
-```
-
-to install `rector/rector`.
-
-Run
-
-```bash
-vendor/bin/rector process src/ --config vendor/thecodingmachine/safe/rector-migrate-0.7.php
-```
-
-to run `rector/rector`.
-
-*Note:* do not forget to replace "src/" with the path to your source directory.
-
-**Important:** the refactoring only performs a "dumb" replacement of functions. It will not modify the way
-"false" return values are handled. So if your code was already performing error handling, you will have to deal
-with it manually.
-
-Especially, you should look for error handling that was already performed, like:
-
-```php
-if (!mkdir($dirPath)) {
-    // Do something on error
-}
-```
-
-This code will be refactored by Rector to:
-
-```php
-if (!\Safe\mkdir($dirPath)) {
-    // Do something on error
-}
-```
-
-You should then (manually) refactor it to:
-
-```php
-try {
-    \Safe\mkdir($dirPath));
-} catch (\Safe\FilesystemException $e) {
-    // Do something on error
-}
-```
-
-## Performance impact
-
-Safe is loading 1000+ functions from ~85 files on each request. Yet, the performance impact of this loading is quite low.
-
-In case you worry, using Safe will "cost" you ~700µs on each request. The [performance section](performance/README.md)
-contains more information regarding the way we tested the performance impact of Safe.
-
-## Learn more
-
-Read [the release article on TheCodingMachine's blog](https://thecodingmachine.io/introducing-safe-php) if you want to
-learn more about what triggered the development of Safe-PHP.
+Please see <https://uuid.ramsey.dev> for documentation, tips, examples, and
+frequently asked questions.
 
 ## Contributing
 
-The files that contain all the functions are auto-generated from the PHP doc.
-Read the [CONTRIBUTING.md](CONTRIBUTING.md) file to learn how to regenerate these files and to contribute to this library.
+Contributions are welcome! To contribute, please familiarize yourself with
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Coordinated Disclosure
+
+Keeping user information safe and secure is a top priority, and we welcome the
+contribution of external security researchers. If you believe you've found a
+security issue in software that is maintained in this repository, please read
+[SECURITY.md][] for instructions on submitting a vulnerability report.
+
+## ramsey/uuid for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of ramsey/uuid and thousands of other packages are working with
+Tidelift to deliver commercial support and maintenance for the open source
+packages you use to build your applications. Save time, reduce risk, and improve
+code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/packagist-ramsey-uuid?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
+## Copyright and License
+
+The ramsey/uuid library is copyright © [Ben Ramsey](https://benramsey.com/) and
+licensed for use under the MIT License (MIT). Please see [LICENSE][] for more
+information.
+
+[rfc4122]: http://tools.ietf.org/html/rfc4122
+[conduct]: https://github.com/ramsey/uuid/blob/main/CODE_OF_CONDUCT.md
+[javauuid]: http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html
+[pyuuid]: http://docs.python.org/3/library/uuid.html
+[composer]: http://getcomposer.org/
+[contributing.md]: https://github.com/ramsey/uuid/blob/main/CONTRIBUTING.md
+[security.md]: https://github.com/ramsey/uuid/blob/main/SECURITY.md
+[license]: https://github.com/ramsey/uuid/blob/main/LICENSE
