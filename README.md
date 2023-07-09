@@ -1,83 +1,137 @@
-<h1 align="center">ramsey/uuid</h1>
+# SQL Parser
 
-<p align="center">
-    <strong>A PHP library for generating and working with UUIDs.</strong>
-</p>
+A validating SQL lexer and parser with a focus on MySQL dialect.
 
-<p align="center">
-    <a href="https://github.com/ramsey/uuid"><img src="http://img.shields.io/badge/source-ramsey/uuid-blue.svg?style=flat-square" alt="Source Code"></a>
-    <a href="https://packagist.org/packages/ramsey/uuid"><img src="https://img.shields.io/packagist/v/ramsey/uuid.svg?style=flat-square&label=release" alt="Download Package"></a>
-    <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/uuid.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
-    <a href="https://github.com/ramsey/uuid/blob/main/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/uuid.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
-    <a href="https://github.com/ramsey/uuid/actions/workflows/continuous-integration.yml"><img src="https://img.shields.io/github/workflow/status/ramsey/uuid/build/main?logo=github&style=flat-square" alt="Build Status"></a>
-    <a href="https://codecov.io/gh/ramsey/uuid"><img src="https://img.shields.io/codecov/c/gh/ramsey/uuid?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
-    <a href="https://shepherd.dev/github/ramsey/uuid"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fuuid%2Fcoverage" alt="Psalm Type Coverage"></a>
-</p>
+## Code status
 
-ramsey/uuid is a PHP library for generating and working with universally unique
-identifiers (UUIDs).
-
-This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
-By participating in this project and its community, you are expected to
-uphold this code.
-
-Much inspiration for this library came from the [Java][javauuid] and
-[Python][pyuuid] UUID libraries.
+![Tests](https://github.com/phpmyadmin/sql-parser/workflows/Run%20tests/badge.svg?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/?branch=master)
+[![codecov.io](https://codecov.io/github/phpmyadmin/sql-parser/coverage.svg?branch=master)](https://codecov.io/github/phpmyadmin/sql-parser?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/?branch=master)
+[![Translation status](https://hosted.weblate.org/widgets/phpmyadmin/-/svg-badge.svg)](https://hosted.weblate.org/engage/phpmyadmin/?utm_source=widget)
+[![Packagist](https://img.shields.io/packagist/dt/phpmyadmin/sql-parser.svg)](https://packagist.org/packages/phpmyadmin/sql-parser)
+[![Open Source Helpers](https://www.codetriage.com/phpmyadmin/sql-parser/badges/users.svg)](https://www.codetriage.com/phpmyadmin/sql-parser)
+[![Type coverage](https://shepherd.dev/github/phpmyadmin/sql-parser/coverage.svg)](https://shepherd.dev/github/phpmyadmin/sql-parser)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/phpmyadmin/sql-parser/master)](https://infection.github.io)
 
 ## Installation
 
-The preferred method of installation is via [Composer][]. Run the following
-command to install the package and add it as a requirement to your project's
-`composer.json`:
+Please use [Composer][1] to install:
 
-```bash
-composer require ramsey/uuid
+```sh
+composer require phpmyadmin/sql-parser
 ```
-
-## Upgrading to Version 4
-
-See the documentation for a thorough upgrade guide:
-
-* [Upgrading ramsey/uuid Version 3 to 4](https://uuid.ramsey.dev/en/latest/upgrading/3-to-4.html)
 
 ## Documentation
 
-Please see <https://uuid.ramsey.dev> for documentation, tips, examples, and
-frequently asked questions.
+The API documentation is available at
+<https://develdocs.phpmyadmin.net/sql-parser/>.
 
-## Contributing
+## Usage
 
-Contributions are welcome! To contribute, please familiarize yourself with
-[CONTRIBUTING.md](CONTRIBUTING.md).
+### Command line utilities
 
-## Coordinated Disclosure
+Command line utility to syntax highlight SQL query:
 
-Keeping user information safe and secure is a top priority, and we welcome the
-contribution of external security researchers. If you believe you've found a
-security issue in software that is maintained in this repository, please read
-[SECURITY.md][] for instructions on submitting a vulnerability report.
+```sh
+./vendor/bin/highlight-query --query "SELECT 1"
+```
 
-## ramsey/uuid for Enterprise
+Command line utility to lint SQL query:
 
-Available as part of the Tidelift Subscription.
+```sh
+./vendor/bin/lint-query --query "SELECT 1"
+```
 
-The maintainers of ramsey/uuid and thousands of other packages are working with
-Tidelift to deliver commercial support and maintenance for the open source
-packages you use to build your applications. Save time, reduce risk, and improve
-code health, while paying the maintainers of the exact packages you use.
-[Learn more.](https://tidelift.com/subscription/pkg/packagist-ramsey-uuid?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+Command line utility to tokenize SQL query:
 
-## Copyright and License
+```sh
+./vendor/bin/tokenize-query --query "SELECT 1"
+```
 
-The ramsey/uuid library is copyright © [Ben Ramsey](https://benramsey.com/) and
-licensed for use under the MIT License (MIT). Please see [LICENSE][] for more
-information.
+All commands are able to parse input from stdin (standard in), such as:
 
-[rfc4122]: http://tools.ietf.org/html/rfc4122
-[conduct]: https://github.com/ramsey/uuid/blob/main/CODE_OF_CONDUCT.md
-[javauuid]: http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html
-[pyuuid]: http://docs.python.org/3/library/uuid.html
-[composer]: http://getcomposer.org/
-[contributing.md]: https://github.com/ramsey/uuid/blob/main/CONTRIBUTING.md
-[security.md]: https://github.com/ramsey/uuid/blob/main/SECURITY.md
-[license]: https://github.com/ramsey/uuid/blob/main/LICENSE
+```sh
+echo "SELECT 1" | ./vendor/bin/highlight-query
+cat example.sql | ./vendor/bin/lint-query
+```
+
+### Formatting SQL query
+
+```php
+echo PhpMyAdmin\SqlParser\Utils\Formatter::format($query, ['type' => 'html']);
+```
+
+### Discoverying query type
+
+```php
+use PhpMyAdmin\SqlParser\Parser;
+use PhpMyAdmin\SqlParser\Utils\Query;
+
+$query = 'OPTIMIZE TABLE tbl';
+$parser = new Parser($query);
+$flags = Query::getFlags($parser->statements[0]);
+
+echo $flags['querytype'];
+```
+
+### Parsing and building SQL query
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+$query1 = 'select * from a';
+$parser = new PhpMyAdmin\SqlParser\Parser($query1);
+
+// inspect query
+var_dump($parser->statements[0]); // outputs object(PhpMyAdmin\SqlParser\Statements\SelectStatement)
+
+// modify query by replacing table a with table b
+$table2 = new \PhpMyAdmin\SqlParser\Components\Expression('', 'b', '', '');
+$parser->statements[0]->from[0] = $table2;
+
+// build query again from an array of object(PhpMyAdmin\SqlParser\Statements\SelectStatement) to a string
+$statement = $parser->statements[0];
+$query2 = $statement->build();
+var_dump($query2); // outputs string(19) 'SELECT  * FROM `b` '
+
+// Change SQL mode
+PhpMyAdmin\SqlParser\Context::setMode(PhpMyAdmin\SqlParser\Context::SQL_MODE_ANSI_QUOTES);
+
+// build the query again using different quotes
+$query2 = $statement->build();
+var_dump($query2); // outputs string(19) 'SELECT  * FROM "b" '
+```
+
+## Localization
+
+You can localize error messages installing `phpmyadmin/motranslator` version `5.0` or newer:
+
+```sh
+composer require phpmyadmin/motranslator:^5.0
+```
+
+The locale is automatically detected from your environment, you can also set a different locale
+
+**From cli**:
+
+```sh
+LC_ALL=pl ./vendor/bin/lint-query --query "SELECT 1"
+```
+
+**From php**:
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+$GLOBALS['lang'] = 'pl';
+
+$query1 = 'select * from a';
+$parser = new PhpMyAdmin\SqlParser\Parser($query1);
+```
+
+## More information
+
+This library was originally created during the Google Summer of Code 2015 and has been used by phpMyAdmin since version 4.5.
+
+[1]:https://getcomposer.org/
